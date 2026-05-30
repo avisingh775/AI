@@ -22,6 +22,7 @@ import { queryModel, type ModelResult, type SpeedTier, getModelsForTier, scoreRe
 
 /** Strong reasoning models suitable for synthesis. First is default. */
 export const ORCHESTRATOR_MODELS = [
+  'anthropic/claude-opus-4-8',
   'anthropic/claude-sonnet-4.6',
   'openai/gpt-5.3-chat',
   'google/gemini-3-pro-preview',

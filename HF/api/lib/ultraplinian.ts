@@ -193,7 +193,7 @@ export const ULTRAPLINIAN_MODELS = {
     'z-ai/glm-5',                                       // Strong coding + agent tasks
     'openai/gpt-5.2',                                   // #1 on benchmarks
     'google/gemini-3-pro-preview',                      // Frontier multimodal reasoning
-    'anthropic/claude-opus-4.6',                        // Latest flagship
+    'anthropic/claude-opus-4-8',                        // Latest flagship
     'openai/gpt-oss-120b',                              // Open-weight Apache 2.0
     'deepseek/deepseek-r1',                             // Strong reasoning
     'meta-llama/llama-3.1-405b-instruct',               // Largest open model

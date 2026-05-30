@@ -351,7 +351,7 @@ export const useStore = create<AppState>()(
       // Initial state
       theme: 'matrix',
       apiKey: '',
-      defaultModel: 'anthropic/claude-opus-4.6',
+      defaultModel: 'anthropic/claude-opus-4-8',
       conversations: [],
       currentConversationId: null,
       isHydrated: false,
