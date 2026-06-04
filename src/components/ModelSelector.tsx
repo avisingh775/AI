@@ -335,11 +335,25 @@ const MODELS: ModelInfo[] = [
   },
   // ── MiniMax ──
   {
-    id: 'minimax/minimax-m2.5',
-    name: 'MiniMax M2.5',
+    id: 'minimax/minimax-m3',
+    name: 'MiniMax M3',
     provider: 'MiniMax',
-    description: 'SWE-Bench 80.2%, agentic coding',
-    context: '205K'
+    description: 'Frontier flagship, 512K context, image input',
+    context: '512K'
+  },
+  {
+    id: 'minimax/minimax-m2.7',
+    name: 'MiniMax M2.7',
+    provider: 'MiniMax',
+    description: 'Self-evolving, SWE-Pro 56.2%, agentic workflows',
+    context: '204K'
+  },
+  {
+    id: 'minimax/minimax-m2.7-highspeed',
+    name: 'MiniMax M2.7 Highspeed',
+    provider: 'MiniMax',
+    description: 'Low-latency M2.7 variant for fast inference',
+    context: '204K'
   },
   // ── Other ──
   {
