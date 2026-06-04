@@ -1,8 +1,9 @@
 /**
  * Unit tests for MiniMax model configuration in ModelSelector.
  *
- * Validates that MiniMax M2.7 and M2.5 models are correctly defined
- * in the MODELS array with proper OpenRouter IDs, metadata, and context.
+ * Validates that MiniMax M3 (default), M2.7, and M2.7-highspeed models
+ * are correctly defined in the MODELS array with proper OpenRouter IDs,
+ * metadata, and context. Older models (M2.5, M2.1, M2, M1) must be absent.
  */
 import { describe, it, expect } from 'vitest'
 import * as fs from 'fs'
@@ -47,6 +48,14 @@ const MODELS = parseModelsFromSource()
 describe('MiniMax models in ModelSelector', () => {
   const minimaxModels = MODELS.filter(m => m.provider === 'MiniMax')
 
+  it('should include MiniMax M3 model (default)', () => {
+    const m3 = minimaxModels.find(m => m.id === 'minimax/minimax-m3')
+    expect(m3).toBeDefined()
+    expect(m3!.name).toBe('MiniMax M3')
+    expect(m3!.provider).toBe('MiniMax')
+    expect(m3!.context).toBe('512K')
+  })
+
   it('should include MiniMax M2.7 model', () => {
     const m27 = minimaxModels.find(m => m.id === 'minimax/minimax-m2.7')
     expect(m27).toBeDefined()
@@ -55,16 +64,22 @@ describe('MiniMax models in ModelSelector', () => {
     expect(m27!.context).toBe('204K')
   })
 
-  it('should include MiniMax M2.5 model', () => {
-    const m25 = minimaxModels.find(m => m.id === 'minimax/minimax-m2.5')
-    expect(m25).toBeDefined()
-    expect(m25!.name).toBe('MiniMax M2.5')
-    expect(m25!.provider).toBe('MiniMax')
-    expect(m25!.context).toBe('192K')
+  it('should include MiniMax M2.7 Highspeed model', () => {
+    const m27hs = minimaxModels.find(m => m.id === 'minimax/minimax-m2.7-highspeed')
+    expect(m27hs).toBeDefined()
+    expect(m27hs!.name).toBe('MiniMax M2.7 Highspeed')
+    expect(m27hs!.provider).toBe('MiniMax')
   })
 
-  it('should have at least 2 MiniMax models', () => {
-    expect(minimaxModels.length).toBeGreaterThanOrEqual(2)
+  it('should NOT include deprecated M2.5/M2.1/M2/M1 models', () => {
+    const deprecated = minimaxModels.filter(m =>
+      ['minimax/minimax-m2.5', 'minimax/minimax-m2.1', 'minimax/minimax-m2', 'minimax/minimax-m1'].includes(m.id)
+    )
+    expect(deprecated.length).toBe(0)
+  })
+
+  it('should have at least 3 MiniMax models (M3, M2.7, M2.7-highspeed)', () => {
+    expect(minimaxModels.length).toBeGreaterThanOrEqual(3)
   })
 
   it('should use valid OpenRouter model ID format', () => {
@@ -73,10 +88,10 @@ describe('MiniMax models in ModelSelector', () => {
     }
   })
 
-  it('should list M2.7 before M2.5 (latest first)', () => {
+  it('should list M3 first (default, latest)', () => {
+    const m3Index = MODELS.findIndex(m => m.id === 'minimax/minimax-m3')
     const m27Index = MODELS.findIndex(m => m.id === 'minimax/minimax-m2.7')
-    const m25Index = MODELS.findIndex(m => m.id === 'minimax/minimax-m2.5')
-    expect(m27Index).toBeLessThan(m25Index)
+    expect(m3Index).toBeLessThan(m27Index)
   })
 
   it('should have non-empty descriptions', () => {

@@ -1,7 +1,7 @@
 /**
- * Integration tests for MiniMax M2.7 via OpenRouter API.
+ * Integration tests for MiniMax M3 via OpenRouter API.
  *
- * Tests the OpenRouter sendMessage function with MiniMax model routing,
+ * Tests the OpenRouter sendMessage function with MiniMax M3 routing,
  * using mocked fetch to verify correct request format and error handling.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
@@ -19,29 +19,29 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('MiniMax M2.7 via OpenRouter integration', () => {
-  it('should send request with MiniMax M2.7 model ID', async () => {
+describe('MiniMax M3 via OpenRouter integration', () => {
+  it('should send request with MiniMax M3 model ID', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({
         id: 'gen-test',
-        model: 'minimax/minimax-m2.7',
-        choices: [{ message: { role: 'assistant', content: 'Hello from MiniMax M2.7!' }, finish_reason: 'stop' }],
+        model: 'minimax/minimax-m3',
+        choices: [{ message: { role: 'assistant', content: 'Hello from MiniMax M3!' }, finish_reason: 'stop' }],
         usage: { prompt_tokens: 10, completion_tokens: 20, total_tokens: 30 },
       }),
     })
 
     const result = await sendMessage({
       messages: [{ role: 'user', content: 'Hello' }],
-      model: 'minimax/minimax-m2.7',
+      model: 'minimax/minimax-m3',
       apiKey: 'test-api-key',
     })
 
-    expect(result).toBe('Hello from MiniMax M2.7!')
+    expect(result).toBe('Hello from MiniMax M3!')
 
     const fetchCall = mockFetch.mock.calls[0]
     const body = JSON.parse(fetchCall[1].body)
-    expect(body.model).toBe('minimax/minimax-m2.7')
+    expect(body.model).toBe('minimax/minimax-m3')
     expect(body.messages).toEqual([{ role: 'user', content: 'Hello' }])
   })
 
@@ -55,7 +55,7 @@ describe('MiniMax M2.7 via OpenRouter integration', () => {
 
     await sendMessage({
       messages: [{ role: 'user', content: 'test' }],
-      model: 'minimax/minimax-m2.7',
+      model: 'minimax/minimax-m3',
       apiKey: 'sk-test-key',
     })
 
@@ -74,7 +74,7 @@ describe('MiniMax M2.7 via OpenRouter integration', () => {
 
     await sendMessage({
       messages: [{ role: 'user', content: 'test' }],
-      model: 'minimax/minimax-m2.7',
+      model: 'minimax/minimax-m3',
       apiKey: 'test-key',
       temperature: 0.5,
     })
@@ -93,7 +93,7 @@ describe('MiniMax M2.7 via OpenRouter integration', () => {
     await expect(
       sendMessage({
         messages: [{ role: 'user', content: 'test' }],
-        model: 'minimax/minimax-m2.7',
+        model: 'minimax/minimax-m3',
         apiKey: 'test-key',
       })
     ).rejects.toThrow()
@@ -109,10 +109,29 @@ describe('MiniMax M2.7 via OpenRouter integration', () => {
     await expect(
       sendMessage({
         messages: [{ role: 'user', content: 'test' }],
-        model: 'minimax/minimax-m2.7',
+        model: 'minimax/minimax-m3',
         apiKey: 'test-key',
       })
     ).rejects.toThrow(/Rate limited/)
+  })
+
+  it('should also work with M2.7 (backward compatible)', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        choices: [{ message: { role: 'assistant', content: 'M2.7 still works' }, finish_reason: 'stop' }],
+      }),
+    })
+
+    const result = await sendMessage({
+      messages: [{ role: 'user', content: 'Hello' }],
+      model: 'minimax/minimax-m2.7',
+      apiKey: 'test-api-key',
+    })
+
+    expect(result).toBe('M2.7 still works')
+    const body = JSON.parse(mockFetch.mock.calls[0][1].body)
+    expect(body.model).toBe('minimax/minimax-m2.7')
   })
 })
 

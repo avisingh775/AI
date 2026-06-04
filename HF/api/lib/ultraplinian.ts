@@ -209,7 +209,9 @@ export const ULTRAPLINIAN_MODELS = {
     'meta-llama/llama-4-maverick',                      // Latest Meta flagship
     'qwen/qwen3-235b-a22b',                             // Powerful MoE
     'qwen/qwen3-coder',                                 // Frontier agentic coding MoE
-    'minimax/minimax-m2.7',                             // Latest MiniMax flagship, 204K ctx
+    'minimax/minimax-m3',                               // Frontier MiniMax flagship, 512K ctx, image input
+    'minimax/minimax-m2.7',                             // Self-evolving, SWE-Pro 56.2%, real-world workflows
+    'minimax/minimax-m2.7-highspeed',                   // Low-latency M2.7 variant
     'mistralai/mistral-large-2512',                     // Mistral Large 3, 675B MoE
     'google/gemini-3.1-pro-preview',                    // Frontier SWE + reasoning, 1M ctx
     'moonshotai/kimi-k2',                               // 1T MoE instruct, tool-use
