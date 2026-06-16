@@ -80,7 +80,7 @@ The new flagship. Multi-model comparative evaluation engine. Queries models in p
 | 🎯 STANDARD | 24 | Mid-range workhorses |
 | 🧠 SMART | 36 | Strong reasoning models |
 | ⚔️ POWER | 45 | Full power including frontier models |
-| 🔱 ULTRA | 51 | Everything — all available models |
+| 🔱 ULTRA | 56 | Everything — all available models |
 
 ## 🐍 Parseltongue
 
