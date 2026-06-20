@@ -30,13 +30,15 @@ const buckets = new Map<string, RateBucket>()
 
 // Clean up stale sliding-window entries every 10 minutes
 // (totalRequests never gets cleaned — it's a lifetime counter)
+// Clean up stale sliding-window entries every 10 minutes
 setInterval(() => {
   const now = Date.now()
-  for (const [key, bucket] of buckets) {
+
+  buckets.forEach((bucket) => {
     bucket.minuteRequests = bucket.minuteRequests.filter(t => now - t < MINUTE_MS)
     bucket.dayRequests = bucket.dayRequests.filter(t => now - t < DAY_MS)
-    // Don't delete buckets that still have a total count — they need to stay blocked
-  }
+  })
+
 }, 10 * 60 * 1000)
 
 export function rateLimit(req: Request, res: Response, next: NextFunction): void {
